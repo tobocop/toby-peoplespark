@@ -1,6 +1,19 @@
 =link_to 'Add Idea', new_idea_path
 
+=form_tag ideas_path, method: 'get' do
+  %ul.ideaFilters.js-ideasStatusFilters
+    %li.ideaFiltes-filter
+      =check_box_tag 'idea_state[all_ideas]', true, @idea_state_filter_params['all_ideas'], class:'js-ideaFilter'
+      =label_tag :all_ideas
+
+    -@idea_states.each do |idea_state|
+      %li.ideaFiltes-filter
+        =check_box_tag "idea_state[#{idea_state.to_s}]", true, @idea_state_filter_params[idea_state.to_s], class:'js-ideaFilter'
+        =label_tag idea_state
+
+    = submit_tag 'filter'
+
 -if @ideas.length
-  %ul.ideas
+  %ul.ideasList
     -@ideas.each do |idea|
-      %li.idea= idea.title
+      %li.ideasList-idea= idea.title

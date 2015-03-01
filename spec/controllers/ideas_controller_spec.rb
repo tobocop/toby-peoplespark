@@ -4,8 +4,13 @@ describe IdeasController do
 
   describe 'GET :index' do
     let(:idea) { new_idea }
+    let(:idea_state_filter_params) { {'all_ideas' => true} }
+
     before do
-      expect(Idea).to receive(:all).and_return(idea)
+      allow(Idea).to receive(:available_states).and_return([:state1, :state2])
+      allow(Idea).to receive(:all).and_return([idea])
+      allow(Idea).to receive(:filter_by_state).and_return([idea])
+      allow(controller).to receive(:idea_state_filter_params).and_return(idea_state_filter_params)
     end
 
     it 'is successful' do
@@ -18,8 +23,42 @@ describe IdeasController do
       get :index
 
       expect(assigns(:ideas)).to be_present
-      expect(assigns(:ideas)).to eq(idea)
+      expect(assigns(:ideas)).to eq([idea])
     end
+
+    it 'assigns idea_states' do
+      get :index
+
+      expect(assigns(:idea_states)).to be_present
+      expect(assigns(:idea_states)).to eq([:state1, :state2])
+    end
+
+    it 'assigns idea_state_filter_params' do
+      get :index
+
+      expect(assigns(:idea_state_filter_params)).to be_present
+      expect(assigns(:idea_state_filter_params)).to eq({'all_ideas' => true})
+    end
+
+    context 'when all_ideas is in params' do
+      it 'returns all params' do
+        expect(Idea).to receive(:all)
+
+        get :index
+      end
+    end
+
+    context 'when all_ideas is not in params' do
+      let(:idea_state_filter_params) { {'something_else' => true} }
+
+      it 'calls ideas to filter by state' do
+        expect(Idea).to receive(:filter_by_state).
+          with(idea_state_filter_params)
+
+        get :index
+      end
+    end
+
   end
 
   describe 'GET :new' do
