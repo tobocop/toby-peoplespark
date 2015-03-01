@@ -1,0 +1,6 @@
+=link_to 'Add Idea', new_idea_path
+
+-if @ideas.length
+  %ul.ideas
+    -@ideas.each do |idea|
+      %li.idea= idea.title

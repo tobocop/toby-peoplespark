@@ -29,10 +29,21 @@ group :doc do
   gem 'sdoc', require: false
 end
 
+# State machine to handle idea transitions
+gem 'aasm', '~> 4.1.0'
+
 group :development, :test do
   gem 'rspec-rails', '~> 3.2.1'
   gem 'capybara', '~> 2.4.4'
   gem 'jasmine', '~> 2.2.0'
+  gem 'pry', '~> 0.10.1'
 end
+
+group :test do
+  gem 'shoulda-matchers', '~> 2.8.0'
+end
+
+
+gem 'haml-rails', '~> 0.8.2'
 
 

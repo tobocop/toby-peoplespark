@@ -1,0 +1,17 @@
+- if @idea.errors.any?
+  %ul
+    - @idea.errors.full_messages.each do |message|
+      %li= message
+
+%h3
+  What is your idea?
+
+= form_for(@idea) do |f|
+  = f.text_field :title, placeholder: 'Title'
+  = f.text_field :description, placeholder: 'Description'
+  = f.label :single_office, 'derp'
+  = f.check_box :single_office
+  = f.label :anonymous, 'secret herp'
+  = f.check_box :anonymous
+
+  = f.submit 'Share my idea'
