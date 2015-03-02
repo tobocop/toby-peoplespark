@@ -1,0 +1,19 @@
+%li.ideasList-idea
+  .media.ideasList-ideaHeader
+    = image_tag 'profile_pic.png', class: 'mediaImg'
+    .mediaBody
+      %h4.ideasList-title= idea.title
+      .ideasList-subTitle= "By #{idea.submitted_by} - #{idea.submitters_office} Office"
+  .ideasList-description= idea.description
+  %ul.hList.hList-fromLeft
+    %li
+      %span.btn-green.btn-green-withNumber Upvote
+      %span.btn-green-number= idea.vote_count
+    %li.f-grey Downvote
+    %li.f-grey 3 Comments
+
+  %ul.hList.hList-fromRight.fr
+    %li
+      %span{class: "tag #{idea.state_css_class}"}= idea.current_state
+    %li
+      %span.tag.tag-lightBlue= idea.office

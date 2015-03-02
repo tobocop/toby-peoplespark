@@ -16,8 +16,8 @@
           %li.nav-main-item Feedback
           %li.nav-main-item Reports
           %li.nav-main-item Setup
-      %p.notice= notice
-      %p.alert= alert
+      -if !notice.nil?
+        %p.global-notice= notice
 
       .content
         = yield

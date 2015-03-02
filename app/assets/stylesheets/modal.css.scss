@@ -1,0 +1,32 @@
+.modal {
+  position: relative;
+}
+
+.js-modal-content {
+  display:none;
+}
+
+.modal-overlay {
+  position:absolute;
+  width: 100%;
+  background-color: black;
+  opacity: 0.5;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+}
+
+.modal-content {
+  background: white;
+  width: 40%;
+  margin-left: -20%;
+  min-height: 300px;
+  z-index: 1001;
+  position: absolute;
+  top: 200px;
+  left: 50%;
+
+  border-radius: 5px;
+  padding: 35px;
+}
+

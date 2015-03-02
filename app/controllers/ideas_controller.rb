@@ -1,21 +1,7 @@
 class IdeasController < ApplicationController
   def index
-    @offices = Office.order('location').all
-
-    @idea_states = Idea.available_states
-    @idea_state_filter_params = idea_state_filter_params
-    @idea_office_filter_params = idea_office_filter_params
-
-    @ideas = build_idea_presenters(
-      IdeaService.find_ideas_by_state_and_office(
-        @idea_state_filter_params,
-        @idea_office_filter_params
-      )
-    )
-  end
-
-  def new
     @idea = Idea.new
+    set_index_params
   end
 
   def create
@@ -31,13 +17,29 @@ class IdeasController < ApplicationController
       flash.notice = 'Idea created successfully'
       redirect_to ideas_path
     else
+      set_index_params
       flash.notice = 'Idea could not be created'
-      render :new
+      render :index
     end
 
   end
 
 private
+
+  def set_index_params
+    @offices = Office.order('location').all
+
+    @idea_states = Idea.available_states
+    @idea_state_filter_params = idea_state_filter_params
+    @idea_office_filter_params = idea_office_filter_params
+
+    @ideas = build_idea_presenters(
+      IdeaService.find_ideas_by_state_and_office(
+        @idea_state_filter_params,
+        @idea_office_filter_params
+      )
+    )
+  end
 
   def idea_state_filter_params
     params[:idea_state] ? params[:idea_state] : {'all_ideas' => true}

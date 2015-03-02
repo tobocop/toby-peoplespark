@@ -70,21 +70,6 @@ describe IdeasController do
     end
   end
 
-  describe 'GET :new' do
-    it 'is successful' do
-      get :new
-
-      expect(response).to be_successful
-    end
-
-    it 'assigns a new idea' do
-      get :new
-
-      expect(assigns(:idea)).to be_present
-      expect(assigns(:idea).class).to be(Idea)
-    end
-  end
-
   describe 'POST :create' do
     let(:idea_params) {
       {
@@ -133,7 +118,7 @@ describe IdeasController do
       expect(response).to redirect_to(ideas_path)
     end
 
-    it 'renders new when the idea is not created' do
+    it 'renders index when the idea is not created' do
       expect(Idea).to receive(:create).
         and_return(
           double(persisted?: false)
@@ -142,7 +127,7 @@ describe IdeasController do
       post :create, {idea: idea_params.except(:title)}
 
       expect(flash[:notice]).to eq('Idea could not be created')
-      expect(response).to render_template('new')
+      expect(response).to render_template('index')
     end
   end
 end

@@ -13,4 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
-//= require_tree .
+//= require init.js
+//= require_tree ./peoplespark
+
+

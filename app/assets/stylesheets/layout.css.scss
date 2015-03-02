@@ -41,6 +41,7 @@
   background-color: white;
   padding-top: 35px;
   padding-right: 40px;
+  min-height: 1000px;
 }
 
 .rightColumn {
@@ -51,4 +52,15 @@
   padding-top: 35px;
 }
 
+
+.global-notice {
+  width: 100%;
+  padding: 20px;
+  border-top: 3px solid #c4c640;
+  border-bottom: 3px solid #c4c640;
+  background-color: #f8f9c7;
+
+  color: #c4c640;
+  font-size: 1.5em;
+}
 

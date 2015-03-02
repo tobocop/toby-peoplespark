@@ -1,0 +1,22 @@
+.form
+  %h2.form-title
+    What is your idea?
+  - if idea.errors.any?
+    %p.form-errorMessage.js-modal-autoShow
+      There was a problem with your idea submission. Please correct the errors and re-submit
+    %ul.bulletedList
+      - idea.errors.full_messages.each do |message|
+        %li.form-errorMessage= message
+  = form_for(idea) do |f|
+    .form-item
+      = f.text_field :title, placeholder: 'Type your idea here...', class: 'form-input'
+    .form-item
+      = f.text_area :description, placeholder: 'Describe your idea (optional)', class: 'form-input form-input-textArea'
+    .form-item
+      = f.check_box :single_office, class: 'form-checkbox'
+      = f.label :single_office, "This idea is only relevant to my office (#{current_user.office.location})", class: 'form-label'
+    .form-item
+      = f.check_box :anonymous, class: 'form-checkbox'
+      = f.label :anonymous, 'Add anonymously', class: 'form-label'
+
+    = f.submit 'Share my idea', class: 'btn-blue form-submit'

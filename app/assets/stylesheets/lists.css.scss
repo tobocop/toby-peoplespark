@@ -1,5 +1,13 @@
 @import "mixins.css.scss";
 
+.bulletedList {
+  list-style-type: disc;
+}
+
+.bulletedList li{
+  margin-left: 30px;
+}
+
 .hList li{
   float: left;
   line-height: 30px;

@@ -1,52 +1,17 @@
-
 .leftColumn
-  =form_tag ideas_path, method: 'get' do
-    %h3 Show Me
-    %ul.ideaFilters.js-ideasStatusFilters
-      %li.ideaFilters-filter
-        =check_box_tag 'idea_state[all_ideas]', true, @idea_state_filter_params['all_ideas'], class:'js-ideaFilter', id: 'all_ideas'
-        =label_tag :all_ideas, 'All Ideas', class: 'ideaFilters-label'
-
-      -@idea_states.each do |idea_state|
-        %li.ideaFilters-filter
-          =check_box_tag "idea_state[#{idea_state.to_s}]", true, @idea_state_filter_params[idea_state.to_s], class:'js-ideaFilter', id: idea_state
-          =label_tag idea_state, idea_state.to_s.titlecase, class: 'ideaFilters-label'
-
-    %h3 For
-    %ul.ideaFilters.js-ideasOfficeFilters
-      -@offices.each do |office|
-        %li.ideaFilters-filter
-          -html_id = office.location.parameterize.underscore
-          =check_box_tag "office_ids[]", office.id, @idea_office_filter_params.include?(office.id.to_s), class:'js-ideaFilter', id: html_id
-          =label_tag html_id, office.location, class: 'ideaFilters-label'
-
-      = submit_tag 'filter'
+  =render partial: 'idea_filters', locals: {idea_state_filter_params: @idea_state_filter_params, idea_states: @idea_states, offices: @offices, idea_office_filter_params: @idea_office_filter_params }
 
 .centerColumn
   %h2.ib Latest Ideas
-  =link_to 'Add Idea', new_idea_path, class: 'btn-blue fr'
+  .modal.js-modal.fr
+    %span.btn-blue.js-modal-trigger Add Idea
+    .modal-content.js-modal-content
+      = render partial: 'idea_form', locals: {idea: @idea}
+
+
   -if @ideas.length
     %ul.ideasList
-      -@ideas.each do |idea|
-        %li.ideasList-idea
-          .media.ideasList-ideaHeader
-            = image_tag 'profile_pic.png', class: 'mediaImg'
-            .mediaBody
-              %h4.ideasList-title= idea.title
-              .ideasList-subTitle= "By #{idea.submitted_by} - #{idea.submitters_office} Office"
-          .ideasList-description= idea.description
-          %ul.hList.hList-fromLeft
-            %li
-              %span.btn-green.btn-green-withNumber Upvote
-              %span.btn-green-number= idea.vote_count
-            %li.f-grey Downvote
-            %li.f-grey 3 Comments
-
-          %ul.hList.hList-fromRight.fr
-            %li
-              %span{class: "tag #{idea.state_css_class}"}= idea.current_state
-            %li
-              %span.tag.tag-lightBlue= idea.office
+      = render partial: 'idea', collection: @ideas
 
 .rightColumn
 

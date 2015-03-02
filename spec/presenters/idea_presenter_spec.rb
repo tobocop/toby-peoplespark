@@ -76,6 +76,7 @@ describe IdeaPresenter do
     end
   end
 
+
   context 'when the submission is anonymous' do
     let(:idea) {
       new_idea(

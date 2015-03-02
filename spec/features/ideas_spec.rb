@@ -8,7 +8,7 @@ describe 'employee ideas' do
   it 'can be added to by any employee' do
     visit ideas_path
 
-    click_on 'Add Idea'
+    find('.js-modal-trigger').click()
 
     expect(page).to have_content('What is your idea?')
     expect(page).to have_content('This idea is only relevant to my office (New York)')
@@ -38,7 +38,7 @@ describe 'employee ideas' do
       expect(page).to_not have_content('My new idea')
     end
 
-    click_on 'Add Idea'
+    find('.js-modal-trigger').click()
 
     fill_in 'idea_title', with: 'My new idea just for my office'
     check 'idea_single_office'
