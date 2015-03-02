@@ -2,6 +2,7 @@ Idea.destroy_all
 User.destroy_all
 Office.destroy_all
 
+Office.create(location: 'All Offices')
 office = Office.create(location: 'Denver')
 my_office = Office.create(location: 'Seattle')
 

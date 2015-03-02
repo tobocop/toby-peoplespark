@@ -95,10 +95,12 @@ describe IdeasController do
       }
     }
 
-    let(:user) { new_user(id: 123, office_id: 23) }
+    let(:user) { new_user(id: 123, office_id: 3) }
 
     before do
       allow(controller).to receive(:current_user).and_return(user)
+
+      allow(Office).to receive(:all_office_id).and_return(34)
     end
 
     it 'it creates a new idea and redirects to the index' do
@@ -111,9 +113,18 @@ describe IdeasController do
       expect(idea.single_office).to eq(false)
       expect(idea.anonymous).to eq(false)
       expect(idea.user_id).to eq(123)
-      expect(idea.office_id).to eq(23)
+      expect(idea.office_id).to eq(34)
 
       expect(flash[:notice]).to eq('Idea created successfully')
+      expect(response).to redirect_to(ideas_path)
+    end
+
+    it 'sets the office to the employees office if single_office is true' do
+      post :create, {idea: idea_params.merge(single_office: '1')}
+
+      idea = Idea.last
+
+      expect(idea.office_id).to eq(3)
       expect(response).to redirect_to(ideas_path)
     end
 

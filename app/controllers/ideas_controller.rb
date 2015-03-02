@@ -19,7 +19,12 @@ class IdeasController < ApplicationController
   end
 
   def create
-    @idea = Idea.create(idea_params.merge(user_id: current_user.id, office_id: current_user.office_id))
+    @idea = Idea.create(
+      idea_params.merge(
+        user_id: current_user.id,
+        office_id: idea_params[:single_office] == '1' ? current_user.office_id : Office.all_office_id
+      )
+    )
 
     if @idea.persisted?
       flash.notice = 'Idea created successfully'
@@ -38,7 +43,7 @@ private
   end
 
   def idea_office_filter_params
-    params[:office_ids] ? params[:office_ids] : ['all_offices']
+    params[:office_ids] ? params[:office_ids] : [Office.all_office_id.to_s]
   end
 
   def idea_params

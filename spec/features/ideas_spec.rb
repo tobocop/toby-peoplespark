@@ -3,6 +3,7 @@ require 'rails_helper'
 describe 'employee ideas' do
   let!(:office) { create_office(location: 'New York') }
   let!(:user) { create_user(name: 'Toby Awesomesauce', office: office) }
+  let!(:all_office) { create_office(location: 'All Offices') }
 
   it 'can be added to by any employee' do
     visit ideas_path
@@ -23,23 +24,44 @@ describe 'employee ideas' do
 
     expect(page).to have_content('Idea created successfully')
 
-    uncheck 'all_offices'
-    check 'New York'
-    click_on 'filter'
-
     within '.ideasList' do
       expect(page).to have_content('My new idea')
       expect(page).to have_content('By Toby Awesomesauce')
       expect(page).to have_content('New York Office')
     end
 
+    uncheck 'All Offices'
+    check 'New York'
+    click_on 'filter'
+
+    within '.ideasList' do
+      expect(page).to_not have_content('My new idea')
+    end
+
+    click_on 'Add Idea'
+
+    fill_in 'idea_title', with: 'My new idea just for my office'
+    check 'idea_single_office'
+
+    click_on 'Share my idea'
+
+    expect(page).to have_content('Idea created successfully')
+
+    uncheck 'All Offices'
+    check 'New York'
+    click_on 'filter'
+
+    within '.ideasList' do
+      expect(page).to have_content('My new idea just for my office')
+    end
+
   end
 
   it 'can be filtered by status' do
-    create_idea(aasm_state: 'under_consideration', title: 'my new unplanned idea', user: user)
-    create_idea(aasm_state: 'planned', title: 'my idea that is planned', user: user)
-    create_idea(aasm_state: 'in_progress', title: 'my idea that is in progress', user: user)
-    create_idea(aasm_state: 'completed', title: 'my idea that is completed', user: user)
+    create_idea(aasm_state: 'under_consideration', title: 'my new unplanned idea', user: user, office_id: all_office.id)
+    create_idea(aasm_state: 'planned', title: 'my idea that is planned', user: user, office_id: all_office.id)
+    create_idea(aasm_state: 'in_progress', title: 'my idea that is in progress', user: user, office_id: all_office.id)
+    create_idea(aasm_state: 'completed', title: 'my idea that is completed', user: user, office_id: all_office.id)
 
     visit ideas_path
 
@@ -110,11 +132,11 @@ describe 'employee ideas' do
     end
 
 
-    expect(page).to have_content('my denver idea')
-    expect(page).to have_content('my seattle idea')
-    expect(page).to have_content('my new york idea')
+    expect(page).to_not have_content('my denver idea')
+    expect(page).to_not have_content('my seattle idea')
+    expect(page).to_not have_content('my new york idea')
 
-    uncheck 'all_offices'
+    uncheck 'All Offices'
     check 'Denver'
     click_on 'filter'
 

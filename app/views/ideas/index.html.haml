@@ -12,14 +12,11 @@
         =label_tag idea_state
 
   %ul.ideaFilters.js-ideasOfficeFilters
-    %li.ideaFiltes-filter
-      =check_box_tag 'office_ids[]', 'all_offices', @idea_office_filter_params.include?('all_offices'), class:'js-ideaFilter', id: 'all_offices'
-      =label_tag :all_offices, 'All Offices'
-
     -@offices.each do |office|
       %li.ideaFiltes-filter
-        =check_box_tag "office_ids[]", office.id, @idea_office_filter_params.include?(office.id.to_s), class:'js-ideaFilter', id: office.location
-        =label_tag office.location, office.location
+        -html_id = office.location.parameterize.underscore
+        =check_box_tag "office_ids[]", office.id, @idea_office_filter_params.include?(office.id.to_s), class:'js-ideaFilter', id: html_id
+        =label_tag html_id, office.location
 
     = submit_tag 'filter'
 
