@@ -75,9 +75,9 @@ describe 'employee ideas' do
 
     within '.js-ideasStatusFilters' do
         expect(page).to have_content('All Ideas')
-        expect(page).to have_content('Under consideration')
+        expect(page).to have_content('Under Consideration')
         expect(page).to have_content('Planned')
-        expect(page).to have_content('In progress')
+        expect(page).to have_content('In Progress')
         expect(page).to have_content('Completed')
     end
 

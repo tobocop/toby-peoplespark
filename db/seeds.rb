@@ -3,7 +3,7 @@ User.destroy_all
 Office.destroy_all
 IdeaVote.destroy_all
 
-Office.create(location: 'All Offices')
+all_office = Office.create(location: 'All Offices')
 office = Office.create(location: 'Denver')
 my_office = Office.create(location: 'Seattle')
 
@@ -29,7 +29,7 @@ Idea.available_states.each do |state|
         anonymous: i % 4 == 0, #make every 4th submission anonymous
         aasm_state: state.to_s,
         user: user,
-        office_id: office.id
+        office_id: all_office.id
       }
     )
 

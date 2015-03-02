@@ -2,12 +2,22 @@
 %html
   %head
     %title Peoplespark
+    = stylesheet_link_tag     "http://fonts.googleapis.com/css?family=Open+Sans", :meadia => "all"
     = stylesheet_link_tag     "application", :media => "all"
     = javascript_include_tag  "application"
     = csrf_meta_tags
 
   %body
-    %p.notice= notice
-    %p.alert= alert
+    .wrap
+      %header.header
+        .header-logo
+        %ul.nav-main
+          %li.nav-main-item.selected Ideas
+          %li.nav-main-item Feedback
+          %li.nav-main-item Reports
+          %li.nav-main-item Setup
+      %p.notice= notice
+      %p.alert= alert
 
-    = yield
+      .content
+        = yield

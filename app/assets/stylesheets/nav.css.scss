@@ -1,0 +1,10 @@
+.nav-main-item {
+  float: left;
+  margin-left: 35px;
+  text-transform: uppercase;
+
+  &.selected, &:hover {
+    color: #feffff;
+    cursor: pointer;
+  };
+}

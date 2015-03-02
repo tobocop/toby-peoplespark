@@ -1,0 +1,41 @@
+%btn {
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 5px;
+  line-height: 12px;
+}
+
+.btn-blue {
+  @extend %btn;
+  font-size: .9em;
+  text-transform: uppercase;
+  background-color: #4f83b3;
+  color: white;
+
+  padding: 12px 20px;
+}
+
+.btn-green {
+  @extend %btn;
+  color: #3f6b18;
+  background-color: #e0f1b4;
+  padding: 10px 12px;
+}
+
+.btn-green-withNumber {
+  border-bottom-right-radius: 0px;
+  border-top-right-radius: 0px;
+}
+
+.btn-green-number {
+  line-height: 12px;
+
+  border-bottom-right-radius: 5px;
+  border-top-right-radius: 5px;
+  background-color: #accd6f;
+  padding: 10px;
+  margin-left:-.5em;
+  color: white;
+  display: inline-block;
+}
+

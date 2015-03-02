@@ -1,0 +1,54 @@
+@import "mixins.css.scss";
+
+.wrap {
+  background-image: image-url("center_background.gif");
+  background-repeat: repeat-y;
+
+}
+
+.header {
+  background-color: #333333;
+  color: #767d83;
+  font-size: 1.1em;
+  line-height: 70px;
+  padding: 0 35px;
+
+  @extend %clearfix;
+}
+
+.header-logo {
+  background-image: image-url("logo.png");
+  width: 173px;
+  height: 26px;
+  float: left;
+  margin-top: 22px;
+}
+
+.content {
+  position:relative;
+}
+
+.leftColumn {
+  position: absolute;
+  left: 0;
+  width: 260px;
+  padding: 35px 40px 0 40px;
+}
+
+.centerColumn {
+  margin-left: 300px;
+  margin-right: 385px;
+  background-color: white;
+  padding-top: 35px;
+  padding-right: 40px;
+}
+
+.rightColumn {
+  position:absolute;
+  right: 0;
+  top: 0;
+  width: 385px;
+  padding-top: 35px;
+}
+
+

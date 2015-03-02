@@ -25,4 +25,17 @@ class IdeaPresenter
   def submitters_office
     submitter.office.location #this triggers extra queries, refactor
   end
+
+  def state_css_class
+    case current_state
+      when 'Under Consideration'
+        'tag-orange'
+      when 'In Progress'
+        'tag-purple'
+      when 'Planned'
+        'tag-red'
+      when 'Completed'
+        'tag-green'
+    end
+  end
 end
