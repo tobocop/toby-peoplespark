@@ -1,15 +1,19 @@
 Idea.destroy_all
 User.destroy_all
+Office.destroy_all
+
+office = Office.create(location: 'Denver')
+my_office = Office.create(location: 'Seattle')
 
 user = User.create(
   name: 'Ollie monster',
-  office_id: 1,
+  office: office,
   profile_picture: 'dog.png'
 )
 
 my_user = User.create(
   name: 'Toby Rumans',
-  office_id: 1,
+  office: my_office,
   profile_picture: 'dog.png'
 )
 
