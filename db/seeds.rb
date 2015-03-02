@@ -7,6 +7,12 @@ user = User.create(
   profile_picture: 'dog.png'
 )
 
+my_user = User.create(
+  name: 'Toby Rumans',
+  office_id: 1,
+  profile_picture: 'dog.png'
+)
+
 Idea.available_states.each do |state|
   14.times do |i|
     Idea.create(
