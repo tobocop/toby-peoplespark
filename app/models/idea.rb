@@ -12,6 +12,7 @@ class Idea < ActiveRecord::Base
   validates_presence_of :title
 
   belongs_to :user
+  belongs_to :office
   has_many :idea_votes
 
   def self.filter_by_state(states)

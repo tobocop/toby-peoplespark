@@ -2,8 +2,17 @@ require 'rails_helper'
 
 describe IdeaPresenter do
   let(:office) { new_office(location: 'Denver') }
+  let(:idea_office) { new_office(location: 'All Offices') }
   let(:user) { new_user(id: 123, name: 'Dubstep Rockz', office: office) }
-  let(:idea) { new_idea(title: 'play more dubstep in the office', user_id: user.id) }
+  let(:idea) {
+    new_idea(
+      title: 'play more dubstep in the office',
+      description: 'some',
+      user_id: user.id,
+      aasm_state: 'under_consideration',
+      office: idea_office
+    )
+  }
 
   let(:valid_params) {
     { idea: idea, submitter: user, vote_count: 3 }
@@ -49,9 +58,21 @@ describe IdeaPresenter do
     end
   end
 
-  describe '#vote_count' do
-    it 'returns the number of votes for an item' do
-      expect(idea_presenter.submitters_office).to eq('Denver')
+  describe '#description' do
+    it 'returns the description of an idea' do
+      expect(idea_presenter.description).to eq('some')
+    end
+  end
+
+  describe '#current_state' do
+    it 'returns the current_state of an idea' do
+      expect(idea_presenter.current_state).to eq('Under Consideration')
+    end
+  end
+
+  describe '#office' do
+    it 'returns the office of an idea' do
+      expect(idea_presenter.office).to eq('All Offices')
     end
   end
 

@@ -14,6 +14,7 @@ describe Idea do
 
   it { should validate_presence_of(:title) }
   it { should belong_to(:user) }
+  it { should belong_to(:office) }
   it { should have_many(:idea_votes) }
 
   subject(:idea) {Idea.create(valid_params)}

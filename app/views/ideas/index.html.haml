@@ -26,6 +26,9 @@
       %li.ideasList-idea
         %h4.ideasList-title= idea.title
         .ideasList-subTitle= "By #{idea.submitted_by} - #{idea.submitters_office} Office"
+        .derp= idea.description
+        .derp= idea.current_state
+        .derp= idea.office
         %span.btn-green.btn-green-withNumber
           Upvote
           .btn-number= idea.vote_count
