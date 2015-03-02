@@ -35,7 +35,6 @@ gem 'aasm', '~> 4.1.0'
 group :development, :test do
   gem 'rspec-rails', '~> 3.2.1'
   gem 'capybara', '~> 2.4.4'
-  gem 'jasmine', '~> 2.2.0'
   gem 'pry', '~> 0.10.1'
 end
 
