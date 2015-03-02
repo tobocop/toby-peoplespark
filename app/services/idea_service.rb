@@ -5,7 +5,7 @@ class IdeaService
     ideas = ideas.filter_by_state(state_params) unless state_params.has_key?('all_ideas')
     ideas = ideas.filter_by_office_ids(office_ids)
 
-    ideas.includes(:user)
+    ideas.includes(:user).ordered_by_vote_count
   end
 
 end

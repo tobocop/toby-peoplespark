@@ -5,9 +5,27 @@ describe IdeaService do
       let(:state_params) { {'all_ideas' => true} }
       let(:office_params) { ['1'] }
 
-      let(:limit_double) { double('limit query', includes: true, filter_by_office_ids: filter_by_office_ids_double) }
-      let(:filter_by_state_double) { double('state filtered query', includes: true, filter_by_office_ids: filter_by_office_ids_double) }
-      let(:filter_by_office_ids_double) { double('office filtered query', includes: true) }
+      let(:includes_double) { double(ordered_by_vote_count: true) }
+      let(:limit_double) {
+        double(
+          'limit query',
+          includes: includes_double,
+          filter_by_office_ids: filter_by_office_ids_double
+        )
+      }
+      let(:filter_by_state_double) {
+        double(
+          'state filtered query',
+          includes: includes_double,
+          filter_by_office_ids: filter_by_office_ids_double
+        )
+      }
+      let(:filter_by_office_ids_double) {
+        double(
+          'office filtered query',
+          includes: includes_double
+        )
+      }
 
       before do
         allow(Idea).to receive(:limit).and_return(limit_double)
@@ -51,10 +69,12 @@ describe IdeaService do
         IdeaService.find_ideas_by_state_and_office(state_params, office_params)
       end
 
-      it 'includes the user in the return' do
-        expect(filter_by_office_ids_double).to receive(:includes).with(:user).and_return('users!')
+      it 'includes the user in the return and orders by vote count' do
+        expect(filter_by_office_ids_double).to receive(:includes).with(:user).and_return(includes_double)
+        expect(includes_double).to receive(:ordered_by_vote_count).and_return('ideas!')
 
-        expect(IdeaService.find_ideas_by_state_and_office(state_params, office_params)).to eq('users!')
+
+        expect(IdeaService.find_ideas_by_state_and_office(state_params, office_params)).to eq('ideas!')
       end
     end
 end

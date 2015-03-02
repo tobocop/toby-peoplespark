@@ -1,6 +1,20 @@
 module ObjectCreationMethods
   require 'ostruct'
 
+  def new_idea_vote(options = {})
+    defaults = {
+      idea_id: 3,
+      user_id: 8,
+      vote_count: 1
+    }
+
+    IdeaVote.new { |idea_vote| apply(idea_vote, defaults, options) }
+  end
+
+  def create_idea_vote(options = {})
+    new_idea_vote(options).tap(&:save!)
+  end
+
   def new_office(options = {})
     defaults = {
       location: 'New York'

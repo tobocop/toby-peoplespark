@@ -12,6 +12,7 @@ class Idea < ActiveRecord::Base
   validates_presence_of :title
 
   belongs_to :user
+  has_many :idea_votes
 
   def self.filter_by_state(states)
     where("#{STATE_COLUMN} IN (?)", states.keys)
@@ -21,4 +22,10 @@ class Idea < ActiveRecord::Base
     where("office_id IN (?)", office_ids)
   end
 
+  def self.ordered_by_vote_count
+    select('ideas.*, sum(idea_votes.vote_count) as idea_vote_count').
+      joins(:idea_votes).
+      group('ideas.id').
+      order('sum(idea_votes.vote_count) desc')
+  end
 end

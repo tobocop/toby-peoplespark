@@ -103,7 +103,7 @@ describe IdeasController do
       allow(Office).to receive(:all_office_id).and_return(34)
     end
 
-    it 'it creates a new idea and redirects to the index' do
+    it 'it creates a new idea, adds a vote for the user, and redirects to the index' do
       post :create, {idea: idea_params}
 
       idea = Idea.last
@@ -114,6 +114,11 @@ describe IdeasController do
       expect(idea.anonymous).to eq(false)
       expect(idea.user_id).to eq(123)
       expect(idea.office_id).to eq(34)
+
+      idea_vote = IdeaVote.last
+      expect(idea_vote.idea_id).to eq(idea.id)
+      expect(idea_vote.user_id).to eq(123)
+      expect(idea_vote.vote_count).to eq(1)
 
       expect(flash[:notice]).to eq('Idea created successfully')
       expect(response).to redirect_to(ideas_path)

@@ -1,10 +1,11 @@
 class IdeaPresenter
 
-  attr_accessor :idea, :submitter
+  attr_accessor :idea, :submitter, :vote_count
 
   def initialize(params)
     self.idea = params.fetch(:idea)
     self.submitter = params.fetch(:submitter)
+    self.vote_count = params.fetch(:vote_count)
   end
 
   def submitted_by

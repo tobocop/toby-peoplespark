@@ -58,10 +58,18 @@ describe 'employee ideas' do
   end
 
   it 'can be filtered by status' do
-    create_idea(aasm_state: 'under_consideration', title: 'my new unplanned idea', user: user, office_id: all_office.id)
-    create_idea(aasm_state: 'planned', title: 'my idea that is planned', user: user, office_id: all_office.id)
-    create_idea(aasm_state: 'in_progress', title: 'my idea that is in progress', user: user, office_id: all_office.id)
-    create_idea(aasm_state: 'completed', title: 'my idea that is completed', user: user, office_id: all_office.id)
+    under_consideration_idea = create_idea(aasm_state: 'under_consideration', title: 'my new unplanned idea', user: user, office_id: all_office.id)
+    create_idea_vote(idea_id: under_consideration_idea.id)
+
+    planned_idea = create_idea(aasm_state: 'planned', title: 'my idea that is planned', user: user, office_id: all_office.id)
+    create_idea_vote(idea_id: planned_idea.id)
+
+    in_progress_idea = create_idea(aasm_state: 'in_progress', title: 'my idea that is in progress', user: user, office_id: all_office.id)
+    create_idea_vote(idea_id: in_progress_idea.id)
+
+    completed_idea = create_idea(aasm_state: 'completed', title: 'my idea that is completed', user: user, office_id: all_office.id)
+    create_idea_vote(idea_id: completed_idea.id)
+
 
     visit ideas_path
 
@@ -118,9 +126,12 @@ describe 'employee ideas' do
     denver = create_office(location: 'Denver')
     seattle = create_office(location: 'Seattle')
 
-    create_idea(title: 'my new york idea', user: user, office_id: office.id)
-    create_idea(title: 'my denver idea', user: user, office_id: denver.id)
-    create_idea(title: 'my seattle idea', user: user, office_id: seattle.id)
+    new_york_idea = create_idea(title: 'my new york idea', user: user, office_id: office.id)
+    create_idea_vote(idea_id: new_york_idea.id)
+    denver_idea = create_idea(title: 'my denver idea', user: user, office_id: denver.id)
+    create_idea_vote(idea_id: denver_idea.id)
+    seattle_idea = create_idea(title: 'my seattle idea', user: user, office_id: seattle.id)
+    create_idea_vote(idea_id: seattle_idea.id)
 
     visit ideas_path
 

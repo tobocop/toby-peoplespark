@@ -27,6 +27,7 @@ class IdeasController < ApplicationController
     )
 
     if @idea.persisted?
+      IdeaVote.create(user_id: current_user.id, idea_id: @idea.id, vote_count: 1) # should be moved to idea creation service
       flash.notice = 'Idea created successfully'
       redirect_to ideas_path
     else
@@ -62,6 +63,7 @@ private
   def new_idea_presenter(idea)
     IdeaPresenter.new(
       idea: idea,
+      vote_count: idea.idea_vote_count,
       submitter: idea.user
     )
   end

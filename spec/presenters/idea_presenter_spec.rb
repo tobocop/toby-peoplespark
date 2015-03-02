@@ -6,7 +6,7 @@ describe IdeaPresenter do
   let(:idea) { new_idea(title: 'play more dubstep in the office', user_id: user.id) }
 
   let(:valid_params) {
-    { idea: idea, submitter: user }
+    { idea: idea, submitter: user, vote_count: 3 }
   }
 
   subject(:idea_presenter) { IdeaPresenter.new(valid_params) }
@@ -15,6 +15,7 @@ describe IdeaPresenter do
     it 'stores the idea and submitter' do
       expect(idea_presenter.idea).to eq(idea)
       expect(idea_presenter.submitter).to eq(user)
+      expect(idea_presenter.vote_count).to eq(3)
     end
 
     it 'raises if an idea is not provided' do
@@ -44,6 +45,12 @@ describe IdeaPresenter do
 
   describe '#submitters_office' do
     it 'returns the location of the submitters office' do
+      expect(idea_presenter.submitters_office).to eq('Denver')
+    end
+  end
+
+  describe '#vote_count' do
+    it 'returns the number of votes for an item' do
       expect(idea_presenter.submitters_office).to eq('Denver')
     end
   end

@@ -14,6 +14,7 @@ describe Idea do
 
   it { should validate_presence_of(:title) }
   it { should belong_to(:user) }
+  it { should have_many(:idea_votes) }
 
   subject(:idea) {Idea.create(valid_params)}
 
@@ -66,6 +67,22 @@ describe Idea do
 
       expect(Idea.filter_by_office_ids([2]).length).to eq(1)
       expect(Idea.filter_by_office_ids([1, 2]).length).to eq(2)
+    end
+  end
+
+  describe '.ordered_by_vote_count' do
+    let(:first_idea) { create_idea }
+    let(:second_idea) { create_idea }
+
+    before do
+      create_idea_vote(idea_id: second_idea.id, user_id: 3)
+
+      create_idea_vote(idea_id: first_idea.id, user_id: 3)
+      create_idea_vote(idea_id: first_idea.id, user_id: 3)
+    end
+
+    it 'returns ideas ordered by total votes' do
+      expect(Idea.ordered_by_vote_count).to eq([first_idea, second_idea])
     end
   end
 

@@ -1,6 +1,7 @@
 Idea.destroy_all
 User.destroy_all
 Office.destroy_all
+IdeaVote.destroy_all
 
 Office.create(location: 'All Offices')
 office = Office.create(location: 'Denver')
@@ -20,7 +21,7 @@ my_user = User.create(
 
 Idea.available_states.each do |state|
   14.times do |i|
-    Idea.create(
+    idea = Idea.create(
       {
         title: "Idea #{i} for #{state.to_s}, all offices",
         description: 'something cool',
@@ -31,6 +32,14 @@ Idea.available_states.each do |state|
         office_id: office.id
       }
     )
+
+    (i * 2).times do |n|
+      IdeaVote.create(
+        user_id: my_user.id,
+        idea_id: idea.id,
+        vote_count: 1
+      )
+    end
   end
 end
 
