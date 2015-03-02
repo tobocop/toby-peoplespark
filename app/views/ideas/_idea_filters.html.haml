@@ -18,4 +18,5 @@
         =check_box_tag "office_ids[]", office.id, idea_office_filter_params.include?(office.id.to_s), class:'js-ideaFilter', id: html_id
         =label_tag html_id, office.location, class: 'ideaFilters-label'
 
-    = submit_tag 'filter'
+    %br
+    = submit_tag 'Filter', class: 'btn-blue form-submit'

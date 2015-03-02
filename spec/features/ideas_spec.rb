@@ -32,7 +32,7 @@ describe 'employee ideas' do
 
     uncheck 'All Offices'
     check 'New York'
-    click_on 'filter'
+    click_on 'Filter'
 
     within '.ideasList' do
       expect(page).to_not have_content('My new idea')
@@ -49,7 +49,7 @@ describe 'employee ideas' do
 
     uncheck 'All Offices'
     check 'New York'
-    click_on 'filter'
+    click_on 'Filter'
 
     within '.ideasList' do
       expect(page).to have_content('My new idea just for my office')
@@ -88,7 +88,7 @@ describe 'employee ideas' do
 
     uncheck 'all_ideas'
     check 'under_consideration'
-    click_on 'filter'
+    click_on 'Filter'
 
     expect(page).to have_content('my new unplanned idea')
     expect(page).to_not have_content('my idea that is planned')
@@ -97,7 +97,7 @@ describe 'employee ideas' do
 
     uncheck 'under_consideration'
     check 'planned'
-    click_on 'filter'
+    click_on 'Filter'
 
     expect(page).to_not have_content('my new unplanned idea')
     expect(page).to have_content('my idea that is planned')
@@ -106,7 +106,7 @@ describe 'employee ideas' do
 
     uncheck 'planned'
     check 'in_progress'
-    click_on 'filter'
+    click_on 'Filter'
 
     expect(page).to_not have_content('my new unplanned idea')
     expect(page).to_not have_content('my idea that is planned')
@@ -114,7 +114,7 @@ describe 'employee ideas' do
     expect(page).to_not have_content('my idea that is completed')
 
     check 'completed'
-    click_on 'filter'
+    click_on 'Filter'
 
     expect(page).to_not have_content('my new unplanned idea')
     expect(page).to_not have_content('my idea that is planned')
@@ -149,7 +149,7 @@ describe 'employee ideas' do
 
     uncheck 'All Offices'
     check 'Denver'
-    click_on 'filter'
+    click_on 'Filter'
 
     expect(page).to have_content('my denver idea')
     expect(page).to_not have_content('my seattle idea')
@@ -157,14 +157,14 @@ describe 'employee ideas' do
 
     uncheck 'Denver'
     check 'Seattle'
-    click_on 'filter'
+    click_on 'Filter'
 
     expect(page).to_not have_content('my denver idea')
     expect(page).to have_content('my seattle idea')
     expect(page).to_not have_content('my new york idea')
 
     check 'New York'
-    click_on 'filter'
+    click_on 'Filter'
 
     expect(page).to_not have_content('my denver idea')
     expect(page).to have_content('my seattle idea')
