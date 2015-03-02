@@ -14,4 +14,8 @@ class IdeaPresenter
   def title
     idea.title
   end
+
+  def submitters_office
+    submitter.office.location #this could take a user presenter as well, refactor here if time
+  end
 end

@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 describe IdeaPresenter do
-  let(:user) { new_user(id: 123, name: 'Dubstep Rockz') }
+  let(:office) { new_office(location: 'Denver') }
+  let(:user) { new_user(id: 123, name: 'Dubstep Rockz', office: office) }
   let(:idea) { new_idea(title: 'play more dubstep in the office', user_id: user.id) }
 
   let(:valid_params) {
@@ -38,6 +39,12 @@ describe IdeaPresenter do
   describe '#title' do
     it 'returns the title of the idea' do
       expect(idea_presenter.title).to eq('play more dubstep in the office')
+    end
+  end
+
+  describe '#submitters_office' do
+    it 'returns the location of the submitters office' do
+      expect(idea_presenter.submitters_office).to eq('Denver')
     end
   end
 

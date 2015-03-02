@@ -9,6 +9,8 @@ describe User do
     }
   }
 
+  it { should belong_to(:office) }
+
   it 'can be persisted' do
     expect(User.create(valid_params)).to be_persisted
   end

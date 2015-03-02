@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 describe 'employee ideas' do
-  let!(:user) { create_user(name: 'Toby Awesomesauce') }
+  let!(:office) { create_office(location: 'New York') }
+  let!(:user) { create_user(name: 'Toby Awesomesauce', office: office) }
 
   it 'can be added to by any employee' do
     visit ideas_path
@@ -9,6 +10,7 @@ describe 'employee ideas' do
     click_on 'Add Idea'
 
     expect(page).to have_content('What is your idea?')
+    expect(page).to have_content('This idea is only relevant to my office (New York)')
 
     click_on 'Share my idea'
 
@@ -24,6 +26,7 @@ describe 'employee ideas' do
     within '.ideasList' do
       expect(page).to have_content('My new idea')
       expect(page).to have_content('By Toby Awesomesauce')
+      expect(page).to have_content('New York Office')
     end
 
   end

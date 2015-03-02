@@ -1,6 +1,18 @@
 module ObjectCreationMethods
   require 'ostruct'
 
+  def new_office(options = {})
+    defaults = {
+      location: 'New York'
+    }
+
+    Office.new { |office| apply(office, defaults, options) }
+  end
+
+  def create_office(options = {})
+    new_office(options).tap(&:save!)
+  end
+
   def new_user(options = {})
     defaults = {
       name: 'Ollie monster',
