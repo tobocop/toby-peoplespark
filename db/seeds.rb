@@ -1,4 +1,11 @@
 Idea.destroy_all
+User.destroy_all
+
+user = User.create(
+  name: 'Ollie monster',
+  office_id: 1,
+  profile_picture: 'dog.png'
+)
 
 Idea.available_states.each do |state|
   14.times do |i|
@@ -6,9 +13,10 @@ Idea.available_states.each do |state|
       {
         title: "Idea #{i} for #{state.to_s}, all offices",
         description: 'something cool',
-        single_office: false,
-        anonymous: false,
-        aasm_state: state.to_s
+        single_office: i % 3 == 0, # make every 3rd submission single office
+        anonymous: i % 4 == 0, #make every 4th submission anonymous
+        aasm_state: state.to_s,
+        user: user
       }
     )
   end

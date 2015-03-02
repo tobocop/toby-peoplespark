@@ -16,4 +16,6 @@
 -if @ideas.length
   %ul.ideasList
     -@ideas.each do |idea|
-      %li.ideasList-idea= idea.title
+      %li.ideasList-idea
+        %h4.ideasList-title= idea.title
+        .ideasList-subTitle= "By #{idea.submitted_by}"

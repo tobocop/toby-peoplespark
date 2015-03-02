@@ -11,6 +11,8 @@ class Idea < ActiveRecord::Base
 
   validates_presence_of :title
 
+  belongs_to :user
+
   def self.filter_by_state(states)
     where("#{STATE_COLUMN} IN (?)", states.keys)
   end

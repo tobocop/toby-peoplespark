@@ -10,7 +10,9 @@ describe IdeasController do
       allow(Idea).to receive(:available_states).and_return([:state1, :state2])
       allow(Idea).to receive(:all).and_return([idea])
       allow(Idea).to receive(:filter_by_state).and_return([idea])
+
       allow(controller).to receive(:idea_state_filter_params).and_return(idea_state_filter_params)
+      allow(controller).to receive(:build_idea_presenters).and_return([idea])
     end
 
     it 'is successful' do
@@ -86,6 +88,12 @@ describe IdeasController do
       }
     }
 
+    let(:user) { new_user(id: 123) }
+
+    before do
+      allow(controller).to receive(:current_user).and_return(user)
+    end
+
     it 'it creates a new idea and redirects to the index' do
       post :create, {idea: idea_params}
 
@@ -95,6 +103,7 @@ describe IdeasController do
       expect(idea.description).to eq('no really, it is the best thing ever')
       expect(idea.single_office).to eq(false)
       expect(idea.anonymous).to eq(false)
+      expect(idea.user_id).to eq(123)
 
       expect(flash[:notice]).to eq('Idea created successfully')
       expect(response).to redirect_to(ideas_path)
@@ -102,7 +111,7 @@ describe IdeasController do
 
     it 'renders new when the idea is not created' do
       expect(Idea).to receive(:create).
-        with(idea_params.except(:title)).
+        with(idea_params.except(:title).merge(user: user)).
         and_return(
           double(persisted?: false)
         )

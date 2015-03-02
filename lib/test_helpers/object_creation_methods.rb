@@ -1,12 +1,27 @@
 module ObjectCreationMethods
   require 'ostruct'
 
+  def new_user(options = {})
+    defaults = {
+      name: 'Ollie monster',
+      office_id: 1,
+      profile_picture: 'dog.png'
+    }
+
+    User.new { |user| apply(user, defaults, options) }
+  end
+
+  def create_user(options = {})
+    new_user(options).tap(&:save!)
+  end
+
   def new_idea(options = {})
     defaults = {
       title: 'my idea is sick',
       description: 'no really, it is the best thing ever',
       single_office: false,
-      anonymous: false
+      anonymous: false,
+      user_id: 123
     }
 
     Idea.new { |idea| apply(idea, defaults, options) }

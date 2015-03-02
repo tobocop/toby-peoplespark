@@ -1,7 +1,8 @@
 require 'rails_helper'
 
-
 describe 'employee ideas' do
+  let!(:user) { create_user(name: 'Toby Awesomesauce') }
+
   it 'can be added to by any employee' do
     visit ideas_path
 
@@ -22,15 +23,16 @@ describe 'employee ideas' do
 
     within '.ideasList' do
       expect(page).to have_content('My new idea')
+      expect(page).to have_content('By Toby Awesomesauce')
     end
 
   end
 
   it 'can be filtered by status' do
-    create_idea(aasm_state: 'under_consideration', title: 'my new unplanned idea')
-    create_idea(aasm_state: 'planned', title: 'my idea that is planned')
-    create_idea(aasm_state: 'in_progress', title: 'my idea that is in progress')
-    create_idea(aasm_state: 'completed', title: 'my idea that is completed')
+    create_idea(aasm_state: 'under_consideration', title: 'my new unplanned idea', user: user)
+    create_idea(aasm_state: 'planned', title: 'my idea that is planned', user: user)
+    create_idea(aasm_state: 'in_progress', title: 'my idea that is in progress', user: user)
+    create_idea(aasm_state: 'completed', title: 'my idea that is completed', user: user)
 
     visit ideas_path
 

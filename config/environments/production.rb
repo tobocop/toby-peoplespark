@@ -77,4 +77,6 @@ Peoplespark::Application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
+
+  config.load_paths << "#{RAILS_ROOT}/app/presenters"
 end

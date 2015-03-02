@@ -6,11 +6,13 @@ describe Idea do
       title: 'my idea is sick',
       description: 'no really, it is the best thing ever',
       single_office: false,
-      anonymous: false
+      anonymous: false,
+      user_id: 1
     }
   }
 
   it { should validate_presence_of(:title) }
+  it { should belong_to(:user) }
 
   subject(:idea) {Idea.create(valid_params)}
 
