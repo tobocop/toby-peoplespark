@@ -17,4 +17,8 @@ class Idea < ActiveRecord::Base
     where("#{STATE_COLUMN} IN (?)", states.keys)
   end
 
+  def self.filter_by_office_ids(office_ids)
+    where("office_id IN (?)", office_ids)
+  end
+
 end

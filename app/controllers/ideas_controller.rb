@@ -1,10 +1,17 @@
 class IdeasController < ApplicationController
   def index
+    @offices = Office.order('location').all
+
     @idea_states = Idea.available_states
     @idea_state_filter_params = idea_state_filter_params
+    @idea_office_filter_params = idea_office_filter_params
 
-    filtered_ideas = idea_state_filter_params.has_key?('all_ideas') ? Idea.all : Idea.filter_by_state(idea_state_filter_params)
-    @ideas = build_idea_presenters(filtered_ideas)
+    @ideas = build_idea_presenters(
+      IdeaService.find_ideas_by_state_and_office(
+        @idea_state_filter_params,
+        @idea_office_filter_params
+      )
+    )
   end
 
   def new
@@ -12,7 +19,7 @@ class IdeasController < ApplicationController
   end
 
   def create
-    @idea = Idea.create(idea_params.merge(user: current_user))
+    @idea = Idea.create(idea_params.merge(user_id: current_user.id, office_id: current_user.office_id))
 
     if @idea.persisted?
       flash.notice = 'Idea created successfully'
@@ -28,6 +35,10 @@ private
 
   def idea_state_filter_params
     params[:idea_state] ? params[:idea_state] : {'all_ideas' => true}
+  end
+
+  def idea_office_filter_params
+    params[:office_ids] ? params[:office_ids] : ['all_offices']
   end
 
   def idea_params

@@ -26,7 +26,8 @@ Idea.available_states.each do |state|
         single_office: i % 3 == 0, # make every 3rd submission single office
         anonymous: i % 4 == 0, #make every 4th submission anonymous
         aasm_state: state.to_s,
-        user: user
+        user: user,
+        office_id: office.id
       }
     )
   end

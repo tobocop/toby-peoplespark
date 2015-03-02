@@ -16,6 +16,6 @@ class IdeaPresenter
   end
 
   def submitters_office
-    submitter.office.location #this could take a user presenter as well, refactor here if time
+    submitter.office.location #this triggers extra queries, refactor
   end
 end

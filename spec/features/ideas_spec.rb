@@ -23,6 +23,10 @@ describe 'employee ideas' do
 
     expect(page).to have_content('Idea created successfully')
 
+    uncheck 'all_offices'
+    check 'New York'
+    click_on 'filter'
+
     within '.ideasList' do
       expect(page).to have_content('My new idea')
       expect(page).to have_content('By Toby Awesomesauce')
@@ -39,13 +43,21 @@ describe 'employee ideas' do
 
     visit ideas_path
 
+    within '.js-ideasStatusFilters' do
+        expect(page).to have_content('All Ideas')
+        expect(page).to have_content('Under consideration')
+        expect(page).to have_content('Planned')
+        expect(page).to have_content('In progress')
+        expect(page).to have_content('Completed')
+    end
+
     expect(page).to have_content('my new unplanned idea')
     expect(page).to have_content('my idea that is planned')
     expect(page).to have_content('my idea that is in progress')
     expect(page).to have_content('my idea that is completed')
 
-    uncheck 'idea_state[all_ideas]'
-    check 'idea_state[under_consideration]'
+    uncheck 'all_ideas'
+    check 'under_consideration'
     click_on 'filter'
 
     expect(page).to have_content('my new unplanned idea')
@@ -53,8 +65,8 @@ describe 'employee ideas' do
     expect(page).to_not have_content('my idea that is in progress')
     expect(page).to_not have_content('my idea that is completed')
 
-    uncheck 'idea_state[under_consideration]'
-    check 'idea_state[planned]'
+    uncheck 'under_consideration'
+    check 'planned'
     click_on 'filter'
 
     expect(page).to_not have_content('my new unplanned idea')
@@ -62,8 +74,8 @@ describe 'employee ideas' do
     expect(page).to_not have_content('my idea that is in progress')
     expect(page).to_not have_content('my idea that is completed')
 
-    uncheck 'idea_state[planned]'
-    check 'idea_state[in_progress]'
+    uncheck 'planned'
+    check 'in_progress'
     click_on 'filter'
 
     expect(page).to_not have_content('my new unplanned idea')
@@ -71,13 +83,58 @@ describe 'employee ideas' do
     expect(page).to have_content('my idea that is in progress')
     expect(page).to_not have_content('my idea that is completed')
 
-    uncheck 'idea_state[in_progress]'
-    check 'idea_state[completed]'
+    check 'completed'
     click_on 'filter'
 
     expect(page).to_not have_content('my new unplanned idea')
     expect(page).to_not have_content('my idea that is planned')
-    expect(page).to_not have_content('my idea that is in progress')
+    expect(page).to have_content('my idea that is in progress')
     expect(page).to have_content('my idea that is completed')
+  end
+
+  it 'can be filtered by office' do
+    denver = create_office(location: 'Denver')
+    seattle = create_office(location: 'Seattle')
+
+    create_idea(title: 'my new york idea', user: user, office_id: office.id)
+    create_idea(title: 'my denver idea', user: user, office_id: denver.id)
+    create_idea(title: 'my seattle idea', user: user, office_id: seattle.id)
+
+    visit ideas_path
+
+    within '.js-ideasOfficeFilters' do
+        expect(page).to have_content('All Offices')
+        expect(page).to have_content('Denver')
+        expect(page).to have_content('Seattle')
+        expect(page).to have_content('New York')
+    end
+
+
+    expect(page).to have_content('my denver idea')
+    expect(page).to have_content('my seattle idea')
+    expect(page).to have_content('my new york idea')
+
+    uncheck 'all_offices'
+    check 'Denver'
+    click_on 'filter'
+
+    expect(page).to have_content('my denver idea')
+    expect(page).to_not have_content('my seattle idea')
+    expect(page).to_not have_content('my new york idea')
+
+    uncheck 'Denver'
+    check 'Seattle'
+    click_on 'filter'
+
+    expect(page).to_not have_content('my denver idea')
+    expect(page).to have_content('my seattle idea')
+    expect(page).to_not have_content('my new york idea')
+
+    check 'New York'
+    click_on 'filter'
+
+    expect(page).to_not have_content('my denver idea')
+    expect(page).to have_content('my seattle idea')
+    expect(page).to have_content('my new york idea')
   end
 end

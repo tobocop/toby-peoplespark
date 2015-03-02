@@ -33,7 +33,8 @@ module ObjectCreationMethods
       description: 'no really, it is the best thing ever',
       single_office: false,
       anonymous: false,
-      user_id: 123
+      user_id: 123,
+      office_id: 3
     }
 
     Idea.new { |idea| apply(idea, defaults, options) }

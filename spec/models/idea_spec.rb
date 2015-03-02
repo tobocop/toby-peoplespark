@@ -7,7 +7,8 @@ describe Idea do
       description: 'no really, it is the best thing ever',
       single_office: false,
       anonymous: false,
-      user_id: 1
+      user_id: 1,
+      office_id: 34
     }
   }
 
@@ -37,8 +38,7 @@ describe Idea do
     end
   end
 
-  describe 'filter_by_state' do
-
+  describe '.filter_by_state' do
     let!(:idea) { create_idea(aasm_state: 'under_consideration') }
 
     it 'returns ideas given a state' do
@@ -55,6 +55,17 @@ describe Idea do
 
     it 'does not return ideas of the incorrect state' do
       expect(Idea.filter_by_state('planned' => true).length).to eq(0)
+    end
+  end
+
+  describe '.filter_by_office_ids' do
+    let!(:idea) { create_idea(office_id: 2) }
+
+    it 'returns matching ideas given an array of office_ids' do
+      create_idea(office_id: 1)
+
+      expect(Idea.filter_by_office_ids([2]).length).to eq(1)
+      expect(Idea.filter_by_office_ids([1, 2]).length).to eq(2)
     end
   end
 

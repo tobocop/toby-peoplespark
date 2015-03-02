@@ -79,4 +79,5 @@ Peoplespark::Application.configure do
   config.log_formatter = ::Logger::Formatter.new
 
   config.load_paths << "#{RAILS_ROOT}/app/presenters"
+  config.load_paths << "#{RAILS_ROOT}/app/services"
 end

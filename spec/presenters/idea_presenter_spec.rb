@@ -56,6 +56,7 @@ describe IdeaPresenter do
         user_id: user.id
       )
     }
+
     describe '#submitted_by' do
       it 'returns the string Anonymous' do
         expect(idea_presenter.submitted_by).to eq('Anonymous')

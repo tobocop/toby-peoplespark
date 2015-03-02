@@ -3,15 +3,20 @@ require 'rails_helper'
 describe IdeasController do
 
   describe 'GET :index' do
+    let(:office) { new_office }
     let(:idea) { new_idea }
     let(:idea_state_filter_params) { {'all_ideas' => true} }
+    let(:idea_office_filter_params) { 'does not matter what this returns' }
 
     before do
+      allow(Office).to receive(:order).and_return(double(all: [office]))
+
       allow(Idea).to receive(:available_states).and_return([:state1, :state2])
-      allow(Idea).to receive(:all).and_return([idea])
-      allow(Idea).to receive(:filter_by_state).and_return([idea])
+      allow(IdeaService).to receive(:find_ideas_by_state_and_office).and_return([idea])
 
       allow(controller).to receive(:idea_state_filter_params).and_return(idea_state_filter_params)
+      allow(controller).to receive(:idea_office_filter_params).and_return(idea_office_filter_params)
+
       allow(controller).to receive(:build_idea_presenters).and_return([idea])
     end
 
@@ -28,6 +33,13 @@ describe IdeasController do
       expect(assigns(:ideas)).to eq([idea])
     end
 
+    it 'assigns offices from the database' do
+      get :index
+
+      expect(assigns(:offices)).to be_present
+      expect(assigns(:offices)).to eq([office])
+    end
+
     it 'assigns idea_states' do
       get :index
 
@@ -42,25 +54,20 @@ describe IdeasController do
       expect(assigns(:idea_state_filter_params)).to eq({'all_ideas' => true})
     end
 
-    context 'when all_ideas is in params' do
-      it 'returns all params' do
-        expect(Idea).to receive(:all)
+    it 'assigns idea_office_filter_params' do
+      get :index
 
-        get :index
-      end
+      expect(assigns(:idea_office_filter_params)).to be_present
+      expect(assigns(:idea_office_filter_params)).to eq('does not matter what this returns')
     end
 
-    context 'when all_ideas is not in params' do
-      let(:idea_state_filter_params) { {'something_else' => true} }
+    it 'uses the idea service to get the filtered ideas' do
+      expect(IdeaService).to receive(:find_ideas_by_state_and_office).
+        with(idea_state_filter_params, idea_office_filter_params).
+        and_return([idea])
 
-      it 'calls ideas to filter by state' do
-        expect(Idea).to receive(:filter_by_state).
-          with(idea_state_filter_params)
-
-        get :index
-      end
+      get :index
     end
-
   end
 
   describe 'GET :new' do
@@ -88,7 +95,7 @@ describe IdeasController do
       }
     }
 
-    let(:user) { new_user(id: 123) }
+    let(:user) { new_user(id: 123, office_id: 23) }
 
     before do
       allow(controller).to receive(:current_user).and_return(user)
@@ -104,6 +111,7 @@ describe IdeasController do
       expect(idea.single_office).to eq(false)
       expect(idea.anonymous).to eq(false)
       expect(idea.user_id).to eq(123)
+      expect(idea.office_id).to eq(23)
 
       expect(flash[:notice]).to eq('Idea created successfully')
       expect(response).to redirect_to(ideas_path)
@@ -111,7 +119,6 @@ describe IdeasController do
 
     it 'renders new when the idea is not created' do
       expect(Idea).to receive(:create).
-        with(idea_params.except(:title).merge(user: user)).
         and_return(
           double(persisted?: false)
         )
