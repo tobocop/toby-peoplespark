@@ -1,7 +1,9 @@
+//= depend_on_asset "logo.png"
+//= depend_on_asset "center_background.gif"
 @import "mixins.css.scss";
 
 .wrap {
-  background-image: image-url("center_background.gif");
+  background-image: url('<%= asset_path("center_background.gif") %>');
   background-repeat: repeat-y;
 
 }
@@ -17,7 +19,7 @@
 }
 
 .header-logo {
-  background-image: image-url("logo.png");
+  background-image: url('<%= asset_path("logo.png") %>');
   width: 173px;
   height: 26px;
   float: left;

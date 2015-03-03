@@ -46,3 +46,7 @@ end
 gem 'haml-rails', '~> 0.8.2'
 
 
+group :production do
+  gem 'rails_12factor'
+end
+
