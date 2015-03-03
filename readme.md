@@ -1,4 +1,4 @@
-# View App - (https://peoplespark.herokuapp.com/)
+# View App - https://peoplespark.herokuapp.com/
 
 ## Code Improvements
  - refactor offices to not trigger queries on filter
